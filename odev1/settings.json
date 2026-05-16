@@ -1,0 +1,13 @@
+{
+  "screen_width": 800,
+  "screen_height": 600,
+  "fps": 60,
+  "fullscreen": true,
+  "vsync": true,
+  "music_volume": 40,
+  "sfx_volume": 40,
+  "mute": false,
+  "language": "tr",
+  "show_fps": true,
+  "difficulty": "Kolay"
+}
