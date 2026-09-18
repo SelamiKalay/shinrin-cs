@@ -35,6 +35,7 @@ tests/      Entity hiyerarşisi için birim testleri (unittest)
 | `Esc` / `X` | Geri / iptal |
 | `P` | Duraklat |
 | `I` | Envanter |
+| `Q` / `E` | Envanter sekmeleri arasında geçiş |
 
 ## Kurulum ve Çalıştırma
 
