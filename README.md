@@ -1,56 +1,58 @@
 # Shinrin CS
 
-Python ve pygame ile geliştirilmiş, 2D üstten görünümlü bir RPG oyunu. Nesne
-yönelimli programlama dersi kapsamında; kalıtım, kapsülleme ve çok biçimlilik
-prensipleri üzerine kurulu bir oyun motoru mimarisiyle yazılmıştır.
+**English** | [Türkçe](README.tr.md)
 
-## Özellikler
+A 2D top-down RPG built with Python and pygame. It was written as part of an
+object-oriented programming course, with a game engine architecture built on the
+principles of inheritance, encapsulation and polymorphism. The game is in Turkish.
 
-- **Sahne sistemi** — başlık, dünya, envanter, duraklatma, ayarlar ve oyun sonu sahneleri
-- **Sıra tabanlı savaş sistemi**, çarpışma ve diyalog sistemleri
-- **Karo (tile) tabanlı dünya haritası** ve bölgeler, takip eden kamera
-- **Envanter** — ekipman ve tüketilebilir eşyalar
-- **Kayıt / yükleme** sistemi ve kalıcı ayarlar (ses, çözünürlük, zorluk, dil)
-- PyInstaller ile tek dosyalık `.exe` ve Inno Setup ile kurulum paketi oluşturma
+## Features
 
-## Mimari
+- **Scene system** — title, world, inventory, pause, settings and game-over scenes
+- **Turn-based battle system**, collision and dialogue systems
+- **Tile-based world map** with zones and a following camera
+- **Inventory** — equipment and consumable items
+- **Save / load** system and persistent settings (sound, resolution, difficulty, language)
+- Single-file `.exe` build with PyInstaller and an installer with Inno Setup
+
+## Architecture
 
 ```
-engine/     Oyun döngüsü, sahne yöneticisi, render, kamera, girdi, kayıt, ayarlar
+engine/     Game loop, scene manager, renderer, camera, input, saving, settings
 entities/   GameObject → Entity → Character → Player / Enemy / NPC
             Item → Equipment / Consumable, Interactable
-scenes/     Oyun sahneleri (BaseScene'den türetilir)
-systems/    Savaş, çarpışma ve diyalog sistemleri
+scenes/     Game scenes (derived from BaseScene)
+systems/    Battle, collision and dialogue systems
 world/      Tile, TileMap, WorldMap, Zone
-utils/      Sabitler, yardımcılar, loglama, kurulum koruması
-tests/      Entity hiyerarşisi için birim testleri (unittest)
+utils/      Constants, helpers, logging, installation guard
+tests/      Unit tests for the entity hierarchy (unittest)
 ```
 
-## Kontroller
+## Controls
 
-| Tuş | İşlev |
+| Key | Action |
 |---|---|
-| `W A S D` / Yön tuşları | Hareket ve menü gezinme |
-| `Enter` / `Z` | Onayla / etkileşim |
-| `Esc` / `X` | Geri / iptal |
-| `P` | Duraklat |
-| `I` | Envanter |
-| `Q` / `E` | Envanter sekmeleri arasında geçiş |
+| `W A S D` / Arrow keys | Move and navigate menus |
+| `Enter` / `Z` | Confirm / interact |
+| `Esc` / `X` | Back / cancel |
+| `P` | Pause |
+| `I` | Inventory |
+| `Q` / `E` | Switch inventory tabs |
 
-## Kurulum ve Çalıştırma
+## Installation and Running
 
 ```bash
 pip install -r requirements.txt
 python main.py
 ```
 
-Testler:
+Tests:
 
 ```bash
 python -m unittest discover tests
 ```
 
-Windows için `.exe` oluşturma (PyInstaller gerekir):
+Building a Windows `.exe` (requires PyInstaller):
 
 ```bash
 python build.py
