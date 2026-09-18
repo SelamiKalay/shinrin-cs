@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# PyInstaller / Inno Setup çıktıları
+build/
+dist/
+Output/
+
+# Çalışma anında oluşan dosyalar
+logs/
+settings.json
+saves/
