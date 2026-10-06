@@ -56,6 +56,8 @@ class BattleSystem:
         self._log_timer: float = 0.0
         self._intro_timer: float = 2.0
         self._animation_timer: float = 0.0
+        # Animasyon bitince gecilecek tur (kimin hamlesi bittiyse digerine)
+        self._next_state: str = self.STATE_PLAYER_TURN
         self._rewards: dict = {'exp': 0, 'gold': 0, 'items': []}
         self._font = None
         self._small_font = None
@@ -176,6 +178,7 @@ class BattleSystem:
 
         self._state = self.STATE_ANIMATING
         self._animation_timer = 0.8
+        self._next_state = self.STATE_ENEMY_TURN
 
     def _execute_enemy_turn(self) -> None:
         """Düşman turunu otomatik yürütür."""
@@ -197,6 +200,7 @@ class BattleSystem:
 
         self._state = self.STATE_ANIMATING
         self._animation_timer = 1.0
+        self._next_state = self.STATE_PLAYER_TURN
 
     def _next_turn(self) -> None:
         """Sonraki tura geçer, savaş bitişi kontrol eder."""
@@ -213,11 +217,9 @@ class BattleSystem:
             self._state = self.STATE_DEFEAT
             return
 
-        # Tur geçişi
-        if self._state != self.STATE_PLAYER_TURN:
-            self._state = self.STATE_PLAYER_TURN
-        else:
-            self._state = self.STATE_ENEMY_TURN
+        # Tur geçişi: _next_turn hep ANIMATING durumundan çağrılır, bu yüzden
+        # sıradaki tur animasyon başlarken kaydedilir (oyuncu → düşman → oyuncu)
+        self._state = self._next_state
 
     def _get_first_alive_enemy(self):
         """İlk canlı düşmanı döndürür."""

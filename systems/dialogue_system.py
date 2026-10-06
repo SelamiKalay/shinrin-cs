@@ -54,7 +54,8 @@ class DialogueSystem:
         if not dialogue_lines:
             return
 
-        self._dialogue_data = dialogue_lines
+        # Kopya: close() listeyi temizler, cagiranin (NPC) verisi silinmesin
+        self._dialogue_data = list(dialogue_lines)
         self._current_index = 0
         self._active = True
         self._load_line(0)
