@@ -55,5 +55,8 @@ python -m unittest discover tests
 Building a Windows `.exe` (requires PyInstaller):
 
 ```bash
-python build.py
+python packaging/build.py     # → dist/ShinrinCS.exe
 ```
+
+Packaging files (PyInstaller `.spec` files, the Inno Setup script and the installer
+wizard) live in `packaging/`.

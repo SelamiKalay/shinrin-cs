@@ -55,5 +55,8 @@ python -m unittest discover tests
 Windows için `.exe` oluşturma (PyInstaller gerekir):
 
 ```bash
-python build.py
+python packaging/build.py     # → dist/ShinrinCS.exe
 ```
+
+Paketleme dosyaları (PyInstaller `.spec` dosyaları, Inno Setup betiği ve kurulum
+sihirbazı) `packaging/` klasöründedir.

@@ -1,11 +1,16 @@
 # -*- mode: python ; coding: utf-8 -*-
+# Once oyun paketlenmeli (python packaging/build.py), sonra proje kokunden:
+#   python -m PyInstaller packaging/ShinrinCS_Kurulum.spec
 
+import os
+
+ROOT = os.path.abspath(os.path.join(SPECPATH, '..'))
 
 a = Analysis(
-    ['main.py'],
+    [os.path.join(SPECPATH, 'custom_installer.py')],
     pathex=[],
     binaries=[],
-    datas=[('settings.json', '.'), ('saves', 'saves'), ('assets', 'assets'), ('data', 'data')],
+    datas=[(os.path.join(ROOT, 'dist', 'ShinrinCS.exe'), '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -22,7 +27,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='ShinrinCS',
+    name='ShinrinCS_Kurulum',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -35,5 +40,4 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon='NONE',
 )

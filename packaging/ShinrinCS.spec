@@ -1,11 +1,21 @@
 # -*- mode: python ; coding: utf-8 -*-
+# Kullanim (proje kokunden): python packaging/build.py
 
+import os
+
+ROOT = os.path.abspath(os.path.join(SPECPATH, '..'))
+
+# Yalnizca var olan veri dosya/klasorlerini pakete ekle
+datas = [(os.path.join(ROOT, src), dst)
+         for src, dst in [('settings.json', '.'), ('saves', 'saves'),
+                          ('assets', 'assets'), ('data', 'data')]
+         if os.path.exists(os.path.join(ROOT, src))]
 
 a = Analysis(
-    ['custom_installer.py'],
-    pathex=[],
+    [os.path.join(ROOT, 'main.py')],
+    pathex=[ROOT],
     binaries=[],
-    datas=[('dist/ShinrinCS.exe', '.')],
+    datas=datas,
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -22,7 +32,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='ShinrinCS_Kurulum',
+    name='ShinrinCS',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -35,4 +45,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon='NONE',
 )

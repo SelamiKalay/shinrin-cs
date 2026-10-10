@@ -14,6 +14,8 @@ AppVersion={#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
+; Bu betik packaging/ altinda; yollar proje kokune goredir
+SourceDir=..
 OutputDir=installer_output
 OutputBaseFilename=ShinrinCS_Setup
 Compression=lzma2/ultra64
@@ -41,7 +43,7 @@ Root: HKLM; Subkey: "SOFTWARE\ShinrinCS\InstallGuard"; ValueType: dword; ValueNa
 
 [Files]
 Source: "dist\ShinrinCS.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "settings.json"; DestDir: "{app}"; Flags: ignoreversion onlyifdoesntexist
+Source: "settings.json"; DestDir: "{app}"; Flags: ignoreversion onlyifdoesntexist skipifsourcedoesntexist
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
