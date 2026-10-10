@@ -14,6 +14,7 @@ prensipleri üzerine kurulu bir oyun motoru mimarisiyle yazılmıştır.
 - **Envanter** — ekipman ve tüketilebilir eşyalar
 - **Kayıt / yükleme** sistemi ve kalıcı ayarlar (ses, çözünürlük, zorluk, dil)
 - PyInstaller ile tek dosyalık `.exe` ve Inno Setup ile kurulum paketi oluşturma
+- **Tekil kurulum koruması** (ödev gereksinimi — aşağıya bakın)
 
 ## Mimari
 
@@ -60,3 +61,31 @@ python packaging/build.py     # → dist/ShinrinCS.exe
 
 Paketleme dosyaları (PyInstaller `.spec` dosyaları, Inno Setup betiği ve kurulum
 sihirbazı) `packaging/` klasöründedir.
+
+## Tekil Kurulum Koruması (ödev gereksinimi)
+
+Ödevin konularından biri, oyunun **bir bilgisayara yalnızca bir kez
+kurulabilmesini** sağlayan bir kopya/kurulum koruması yazmaktı. Kaldırma işlemi
+koruma kayıtlarını bilerek silmez; bu yüzden aynı bilgisayara tekrar kurulum
+engellenir. Koruma üç katmanda uygulanır:
+
+| Katman | Dosya | Bıraktığı iz |
+|---|---|---|
+| Inno Setup kurulumu | `packaging/installer.iss` | `HKLM\SOFTWARE\ShinrinCS\InstallGuard`, `%ProgramData%\ShinrinCS\.installed` |
+| Python kurulum sihirbazı | `packaging/custom_installer.py` | aynı kayıt defteri anahtarı ve dosya |
+| Oyunun kendisi | `utils/installation_guard.py` | `HKCU\Software\ShinrinCS`, `%LOCALAPPDATA%\.shinrin_cs_installed` |
+
+Hata mesajındaki "lisans politikası" ve destek adresi, ödev senaryosunun
+parçasıdır. Bu bir eğitim örneğidir; kayıt defteri ve dosya izlerini silen biri
+korumayı aşabilir.
+
+Test için korumayı sıfırlamak (Windows, yönetici komut istemi):
+
+```bat
+reg delete "HKLM\SOFTWARE\ShinrinCS" /f
+reg delete "HKCU\Software\ShinrinCS" /f
+del /a "%ProgramData%\ShinrinCS\.installed" "%LOCALAPPDATA%\.shinrin_cs_installed"
+```
+
+`python main.py` ile geliştirme sırasında çalıştırmak da oyun katmanının izlerini
+bırakır (Windows dışında yalnızca `~/.shinrin_cs_installed` dosyası).

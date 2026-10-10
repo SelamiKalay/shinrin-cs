@@ -14,6 +14,7 @@ principles of inheritance, encapsulation and polymorphism. The game is in Turkis
 - **Inventory** — equipment and consumable items
 - **Save / load** system and persistent settings (sound, resolution, difficulty, language)
 - Single-file `.exe` build with PyInstaller and an installer with Inno Setup
+- **Single-install protection** (assignment requirement — see below)
 
 ## Architecture
 
@@ -60,3 +61,31 @@ python packaging/build.py     # → dist/ShinrinCS.exe
 
 Packaging files (PyInstaller `.spec` files, the Inno Setup script and the installer
 wizard) live in `packaging/`.
+
+## Single-Install Protection (assignment requirement)
+
+One of the assignment topics was a copy/installation protection that allows the
+game to be **installed only once per computer**. Uninstalling deliberately keeps
+the protection records, so reinstalling on the same computer is blocked. The
+protection is applied in three layers:
+
+| Layer | File | What it leaves behind |
+|---|---|---|
+| Inno Setup installer | `packaging/installer.iss` | `HKLM\SOFTWARE\ShinrinCS\InstallGuard`, `%ProgramData%\ShinrinCS\.installed` |
+| Python installer wizard | `packaging/custom_installer.py` | the same registry key and file |
+| The game itself | `utils/installation_guard.py` | `HKCU\Software\ShinrinCS`, `%LOCALAPPDATA%\.shinrin_cs_installed` |
+
+The "license policy" wording and support address in the error message are part of
+the assignment scenario. This is an educational example; anyone who deletes the
+registry and file traces can bypass it.
+
+To reset the protection for testing (Windows, administrator command prompt):
+
+```bat
+reg delete "HKLM\SOFTWARE\ShinrinCS" /f
+reg delete "HKCU\Software\ShinrinCS" /f
+del /a "%ProgramData%\ShinrinCS\.installed" "%LOCALAPPDATA%\.shinrin_cs_installed"
+```
+
+Running `python main.py` during development also leaves the game layer's traces
+(outside Windows, only the `~/.shinrin_cs_installed` file).
